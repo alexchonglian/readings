@@ -1,0 +1,221 @@
+[Chapter 2]
+
+pandas dataframe loc iloc
+from sklearn.model_selection import train_test_split
+stratified sampling, ensure that samples are representative of the whole population
+pd.cut
+from sklearn.model_selection import StratifiedShuffleSplit
+play with exploration set
+correlation coefficient, completely miss out on nonlinear relationships
+
+empty values
+1. Get rid of the corresponding districts.
+2. Get rid of the whole attribute.
+3. Set the values to some value (zero, the mean, the median, etc.).
+
+from sklearn.impute import SimpleImputer
+
+Consistency: estimator transformer predictor
+Inspection
+Nonproliferation of classes
+Composition
+Sensible defaults
+
+categorical attribute
+from sklearn.preprocessing import OrdinalEncoder
+from sklearn.preprocessing import OneHotEncoder
+
+you could replace each category with a learnable, low-dimensional vector called an embedding
+representation learning
+
+from sklearn.base import BaseEstimator, TransformerMixin
+
+feature scaling: min-max scaling and standardization
+
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+
+from sklearn.tree import DecisionTreeRegressor
+
+Random Forests work by training many Decision Trees on random subsets of the features, then averaging out their predictions.
+Building a model on top of many other models is called Ensemble Learning, and it is often a great way to push ML algo‐ rithms even further. 
+
+from sklearn.model_selection import GridSearchCV
+
+scipy.stats.t.interval()
+
+much of the work is in the data preparation step: building monitoring tools, setting up human evaluation pipelines, and automating regular model training
+
+sklearn.svm.SVR
+
+GridSearchCV vs RandomizedSearchCV
+
+
+[Chapter 3]
+
+MNIST is often called the “hello world” of Machine Learning.
+
+The StratifiedKFold class performs stratified sampling to produce folds that contain a representative ratio of each class. 
+
+accuracy is generally not the preferred performance measure for classifiers, especially when you are dealing with skewed datasets (i.e., when some classes are much more frequent than others).
+
+from sklearn.metrics import precision_score, recall_score
+
+The F1 score is the harmonic mean of precision and recall
+
+from sklearn.metrics import precision_recall_curve
+
+ROC AUC
+receiver operator curve, area under the curve
+from sklearn.metrics import roc_curve
+
+10 digits
+one-versus-the-rest (OvR) strategy, 10 classifier
+one-versus-one (OvO) strategy, 45 classifier
+
+from sklearn.svm import SVC
+
+np.c_
+np.r_
+
+from sklearn.linear_model import LinearRegression
+np.linalg.lstsq
+
+The pseudoinverse itself is computed using a standard matrix factorization technique called Singular Value Decomposition (SVD) that can decompose the training set matrix X into the matrix multiplication of three matrices U Σ V⊺ (see numpy.linalg.svd()). The pseudoinverse is computed as X+ = VΣ+U⊺. To compute the matrix Σ+, the algorithm takes Σ and sets to zero all values smaller than a tiny threshold value, then it replaces all the nonzero values with their inverse, and finally it transposes the resulting matrix. This approach is more efficient than computing the Normal Equation, plus it handles edge cases nicely: indeed, the Normal Equation may not work if the matrix X⊺X is not invertible (i.e., singular), such as if m < n or if some features are redundant, but the pseudoinverse is always defined.
+
+Batch Gradient Descent, actually, Full Gradient Descent is a better name
+
+simulated annealing
+
+from sklearn.preprocessing import PolynomialFeatures
+
+from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import train_test_split
+
+It is quite common for the cost function used during training to be different from the performance measure used for testing. Apart from regularization, another reason they might be different is that a good training cost function should have optimization-friendly derivatives, while the performance measure used for testing should be as close as possible to the final objective.
+For example, classifiers are often trained using a cost function such as the log loss (dis‐ cussed in a moment) but evaluated using precision/recall.
+
+Elastic Net is a middle ground between Ridge Regression and Lasso Regression
+
+early stopping
+
+[Chapter 5]
+
+You can think of an SVM classifier as fitting the widest possible street.
+adding more training instances “off the street” will not affect the decision boundary at all: it is fully determined (or “supported”) by the instances located on the edge of the street. These instances are called the support vectors
+
+To use SVMs for regression instead of classification, the trick is to reverse the objective: instead of trying to fit the largest possible street between two classes while limiting margin violations, SVM Regression tries to fit as many instances as possible on the street while limiting margin violations (i.e., instances off the street).
+
+[Chapter 6]
+
+Gini impurity is slightly faster to compute, so it is a good default. However, when they differ, Gini impurity tends to isolate the most frequent class in its own branch of the tree, while entropy tends to produce slightly more balanced trees.5
+
+Decision Trees love orthogonal decision boundaries (all splits are perpendicular to an axis), which makes them sensitive to training set rotation. 
+
+use Principal Component Analysis, which often results in a better orientation of the training data.
+
+[Chapter 6]
+
+bagging, boosting, and stacking
+random forest
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import VotingClassifier
+
+sampling with replacement, this method is called bagging (short for bootstrap aggregating)
+sampling without replacement, it is called pasting.
+
+from sklearn.ensemble import BaggingClassifier
+
+The general idea of most boosting methods is to train predictors sequentially, each trying to correct its predecessor. 
+Adaboost
+Gradient Boosting
+
+[Chapter 7]
+
+[Chapter 8]
+
+from sklearn.decomposition import KernelPCA
+
+from sklearn.manifold import LocallyLinearEmbedding
+
+[Chapter 9]
+
+from sklearn.cluster import KMeans
+from sklearn.cluster import MiniBatchKMeans
+
+It is important to scale the input features before you run K-Means, or the clusters may be very stretched and K-Means will perform poorly. Scaling the features does not guarantee that all the clusters will be nice and spherical, but it generally improves things.
+
+from sklearn.cluster import DBSCAN
+
+neighborhood, dense region
+
+KNN
+from sklearn.neighbors import KNeighborsClassifier
+
+Agglomerative clustering. Think of many tiny bubbles floating on water and gradually attaching to each other until there’s one big group of bubbles.
+
+you can think of EM as a generalization of K-Means that not only finds the cluster centers (μ(1) to μ(k)), but also their size, shape, and orientation (Σ(1) to Σ(k))
+
+Anomaly detection is the task of detecting instances that deviate strongly from the norm.
+
+Since MAP constrains the parameter values, you can think of it as a regularized ver‐ sion of MLE.
+
+[Chapter 10]
+
+Hebb rule: Cells that fire together, wire together
+
+multibackend Keras vs tf.keras
+
+[Chapter 11]
+
+compile model after freeze or unfreeze
+torturing the data until it confesses.
+
+unsupervised pretraining
+RBM Autoencoder GAN
+greedy layer-wise pretraining
+
+if you want to build a system to recognize faces. You could gather a lot of pictures of random people on the web and train a first neural network to detect whether or not two different pictures feature the same person.
+
+you can download a corpus of millions of text documents and automatically generate labeled data from it. you could randomly mask out some words and train a model to predict what the missing words are.
+
+Dropout
+It’s surprising at first that this destructive technique works at all. Would a company perform better if its employees were told to toss a coin every morning to decide whether or not to go to work? Well, who knows; perhaps it would! The company would be forced to adapt its organization; it could not rely on any single person to work the coffee machine or perform any other critical tasks, so this expertise would have to be spread across several people. Employees would have to learn to cooperate with many of their coworkers, not just a handful of them. The company would become much more resilient. If one person quit, it wouldn’t make much of a differ‐ ence. It’s unclear whether this idea would actually work for companies, but it certainly does for neural networks. 
+
+[Chapter 12]
+[Chapter 13]
+[Chapter 14]
+[Chapter 15]
+
+LSTM and GRU can tackle much longer sequences than simple RNNs, they still have a fairly limited short-term memory, and they have a hard time learning long-term patterns in sequences of 100 time steps or more, such as audio samples, long time series, or long sentences.
+One way to solve this is to shorten the input sequences, for example using 1D convolutional layers.
+
+[Chapter 16]
+[Chapter 17]
+[Chapter 18]
+[Chapter 19]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
