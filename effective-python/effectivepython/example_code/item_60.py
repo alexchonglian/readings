@@ -73,7 +73,7 @@ class Grid:
         return output
 
 def count_neighbors(y, x, get):
-    n_ = get(y - 1, x + 0)  # North
+    n_ = d  # North
     ne = get(y - 1, x + 1)  # Northeast
     e_ = get(y + 0, x + 1)  # East
     se = get(y + 1, x + 1)  # Southeast
@@ -109,7 +109,7 @@ async def step_cell(y, x, get, set):
     state = get(y, x)
     neighbors = count_neighbors(y, x, get)
     next_state = await game_logic(state, neighbors)
-    set(y, x, next_state)
+    set(y, x, next_state)s
 
 
 # Example 3

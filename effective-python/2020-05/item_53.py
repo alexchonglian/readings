@@ -30,3 +30,97 @@ atexit.register(close_open_files)
 
 def example(i): print(f'\n==== Example {i} ====')
 
+example(1)
+def factorize(number):
+    for i in range(1, number + 1):
+        if number % i == 0:
+            yield i
+
+
+example(2)
+import time
+
+numbers = [2139079, 1214759, 1516637, 1852285]
+start = time.time()
+
+for number in numbers:
+    list(factorize(number))
+
+end = time.time()
+delta = end - start
+print(f'Took {delta:.3f} seconds')
+
+
+example(3)
+from threading import Thread
+
+class FactorizeThread(Thread):
+    def __init__(self, number):
+        super().__init__()
+        self.number = number
+
+    def run(self):
+        self.factors = list(factorize(self.number))
+
+
+example(4)
+start = time.time()
+
+threads = []
+for number in numbers:
+    thread = FactorizeThread(number)
+    thread.start()
+    threads.append(thread)
+
+
+example(5)
+for thread in threads:
+    thread.join()
+
+end = time.time()
+delta = end - start
+print(f'Took {delta:.3f} seconds')
+
+
+example(6)
+import select
+import socket
+
+def slow_systemcall():
+    select.select([socket.socket()], [], [], 0.1)
+
+
+example(7)
+start = time.time()
+
+for _ in range(5):
+    slow_systemcall()
+
+end = time.time()
+delta = end - start
+print(f'Took {delta:.3f} seconds')
+
+
+example(8)
+start = time.time()
+
+threads = []
+for _ in range(5):
+    thread = Thread(target=slow_systemcall)
+    thread.start()
+    threads.append(thread)
+
+
+example(9)
+def compute_helicopter_location(index):
+    pass
+
+for i in range(5):
+    compute_helicopter_location(i)
+
+for thread in threads:
+    thread.join()
+
+end = time.time()
+delta = end - start
+print(f'Took {delta:.3f} seconds')

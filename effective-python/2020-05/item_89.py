@@ -27,3 +27,6 @@ def close_open_files():
             obj.close()
 
 atexit.register(close_open_files)
+
+def example(i): print(f'\n==== Example {i} ====')
+
